@@ -100,7 +100,7 @@ python3 /grepPipeline/scr/grep.csq.sql.py -db samples.chr22.db -i vep/samples.ch
 ```
 vcftools --gzvcf samples.chr22.vcf.gz --out $(chr)/$(id).chr22_counts  --counts --indv $(id)
 ```
-2. Change file formatting with [altCounts.py](https://github.com/ezcn/grep/tree/master/6_grepPipeline/scr/altCounts.py)
+2. Change file formatting with [altCounts.py](https://github.com/SilviaBuonaiuto/grepPipeline/tree/master/scr/altCounts.py)
 ```
 -i = path to input file
 -id = sample ID
