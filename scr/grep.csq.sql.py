@@ -55,7 +55,8 @@ def main():
 
 	c.execute('INSERT INTO firstjoin SELECT myTable.*, pLItable.pLI FROM myTable LEFT JOIN pLItable ON myTable.Feature = pLItable.transcript;')
 	conn.commit()
-
+	c.execute('UPDATE firstjoin SET pLIscore=0 WHERE pLIscore is null');
+	conn.commit()
 
 	##### join genelist
 
