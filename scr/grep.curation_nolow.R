@@ -92,11 +92,12 @@ ggsave(paste (code, '_sumGene.png', sep=''))
 
 #####################
 print('most_severe_consequence')
-csqtype=myd %>% select(ID, index_x, IMPACT, Consequence) %>% distinct() %>% group_by (ID, IMPACT, Consequence) %>% tally() 
+myd<- myd %>% separate(Consequence, c("Most_severe", "other"), sep = ",")
+csqtype=myd %>% select(ID, index_x, IMPACT, Most_severe) %>% distinct() %>% group_by (ID, IMPACT, Most_severe) %>% tally() 
 #number$impact= factor(number$impact,levels=c('HIGH','MODERATE'))
-nbcolors=length(levels(myd$Consequence)) 
+nbcolors=length(levels(myd$Most_severe)) 
 mycolors <- colorRampPalette(brewer.pal(8,'Set2'))(nbcolors)
-ggplot(csqtype, aes(as.factor(ID), n, fill=Consequence)) + geom_bar(stat='identity')  + theme_bw()+ facet_wrap (IMPACT ~ ., scales='free')+ scale_fill_manual(values = mycolors) +coord_flip() +labs(fill = "Consequences", y='Number of unique variants', x='' ) #+ ggtitle(paste(code, '- most_severe_consequence', sep=' '))
+ggplot(csqtype, aes(as.factor(ID), n, fill=Most_severe)) + geom_bar(stat='identity')  + theme_bw()+ facet_wrap (IMPACT ~ ., scales='free')+ scale_fill_manual(values = mycolors) +coord_flip() +labs(fill = "Consequences", y='Number of unique variants', x='' ) #+ ggtitle(paste(code, '- most_severe_consequence', sep=' '))
 ggsave(paste(code, '_most_severe_consequence.png', sep=''))
 
 

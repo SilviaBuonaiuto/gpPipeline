@@ -1,6 +1,7 @@
 import sqlite3
 import pandas as pd
 import re, sys, argparse
+import numpy as np
 
 def main():
 	parser = argparse.ArgumentParser()
@@ -26,7 +27,7 @@ def main():
 	c.execute("DROP TABLE IF EXISTS fatmTab;")
 	c.execute("DROP TABLE IF EXISTS fatmNCtab;")
 	###### open vep table with pandas and create table inside grep.db
-	df = pd.read_table(args.i, sep="\t", index_col= "Uploaded_variation")
+	df = pd.read_table(args.i, sep="\t", index_col= "Uploaded_variation").replace('-', np.nan).fillna(0)
 	df.columns = df.columns.str.strip()
 	df.to_sql("myTable", conn)
 	###### open pLI table and create new table inside grep.db
