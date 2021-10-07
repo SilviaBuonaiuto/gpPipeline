@@ -76,7 +76,7 @@ def main():
 	c.execute("CREATE TABLE finalTableCtr (Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,MAX_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real, EmbryoDev real, DDD real, Lethal real, Essential real, Misc real, index_x text, rare01 text, rare05 text, sumGene real, caddPercent real);")
 
 
-	c.execute("INSERT INTO finalTableCtr SELECT * , ROUND(PERCENT_RANK() OVER (ORDER BY CADD_RAW),3) FROM sumgeneTabCtr WHERE CADD_RAW != '-';")
+	c.execute("INSERT INTO finalTableCtr SELECT * , ROUND(PERCENT_RANK() OVER (ORDER BY CADD_RAW),3) FROM sumgeneTabCtr;")
 
 	conn.commit()
 
@@ -158,7 +158,7 @@ def main():
 	c.execute("CREATE TABLE finalTable (Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,MAX_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real, EmbryoDev real, DDD real, Lethal real, Essential real, Misc real, index_x text, rare01 text, rare05 text, sumGene real, caddPercent real);")
 
 
-	c.execute("INSERT INTO finalTable SELECT * , ROUND(PERCENT_RANK() OVER (ORDER BY CADD_RAW),3) FROM sumgeneTab WHERE CADD_RAW != '-';")
+	c.execute("INSERT INTO finalTable SELECT * , ROUND(PERCENT_RANK() OVER (ORDER BY CADD_RAW),3) FROM sumgeneTab;")
 
 	conn.commit()
 
