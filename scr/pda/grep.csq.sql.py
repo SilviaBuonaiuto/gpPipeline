@@ -27,8 +27,8 @@ def main():
 	c.execute("DROP TABLE IF EXISTS fatmTab;")
 	c.execute("DROP TABLE IF EXISTS fatmNCtab;")
 	###### open vep table with pandas and create table inside grep.db
-	df = pd.read_table(args.i, sep="\t", index_col= "Uploaded_variation").replace('-', np.nan).fillna(0)
-	df[['Allele']] = df[['Allele']].replace(0.0, '-')
+	df = pd.read_table(args.i, sep="\t", index_col= "Uploaded_variation").fillna(0)
+	df[['AF', 'AFR_AF', 'AMR_AF', 'ASN_AF', 'EUR_AF', 'EAS_AF', 'SAS_AF', 'AA_AF', 'EA_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF', 'MAX_AF', 'CADD_RAW', 'CADD_PHRED']] = df[['AF', 'AFR_AF', 'AMR_AF', 'ASN_AF', 'EUR_AF', 'EAS_AF', 'SAS_AF', 'AA_AF', 'EA_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF', 'MAX_AF', 'CADD_RAW', 'CADD_PHRED']].replace('-', 0.0)
 	df.columns = df.columns.str.strip()
 	df.to_sql("myTable", conn)
 	###### open pLI table and create new table inside grep.db
