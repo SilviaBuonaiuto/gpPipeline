@@ -12,13 +12,7 @@ def parse_vep_vcf():
     parser.add_argument("-o", help="path to output tsv file",type=str, required= True)
     args = parser.parse_args()
 
-    VEP_columns = ['Allele','Consequence','IMPACT','SYMBOL','Gene','Feature_type','Feature','BIOTYPE','EXON','INTRON',
-                   'HGVSc','HGVSp','cDNA_position','CDS_position','Protein_position','Amino_acids','Codons',
-                   'Existing_variation','DISTANCE','STRAND','FLAGS','VARIANT_CLASS','SYMBOL_SOURCE','HGNC_ID','TSL',
-                   'APPRIS','SIFT','PolyPhen','AFR_AF','AMR_AF','EAS_AF','EUR_AF','SAS_AF','gnomAD_AF','gnomAD_AFR_AF',
-                   'gnomAD_AMR_AF','gnomAD_ASJ_AF','gnomAD_EAS_AF','gnomAD_FIN_AF','gnomAD_NFE_AF','gnomAD_OTH_AF',
-                   'gnomAD_SAS_AF','CLIN_SIG','SOMATIC','PHENO','PUBMED','MOTIF_NAME','MOTIF_POS','HIGH_INF_POS',
-                   'MOTIF_SCORE_CHANGE','CADD_PHRED','CADD_RAW']
+    VEP_columns = ['Allele','Consequence','IMPACT','SYMBOL','Gene','Feature_type','Feature','BIOTYPE','EXON','INTRON','HGVSc','HGVSp','cDNA_position','CDS_position','Protein_position','Amino_acids','Codons','Existing_variation','DISTANCE','STRAND','FLAGS','VARIANT_CLASS','SYMBOL_SOURCE','HGNC_ID','TSL','APPRIS','SIFT','PolyPhen','AFR_AF','AMR_AF','EAS_AF','EUR_AF','SAS_AF','gnomAD_AF','gnomAD_AFR_AF','gnomAD_AMR_AF','gnomAD_ASJ_AF','gnomAD_EAS_AF','gnomAD_FIN_AF','gnomAD_NFE_AF','gnomAD_OTH_AF','gnomAD_SAS_AF','CLIN_SIG','SOMATIC','PHENO','PUBMED','MOTIF_NAME','MOTIF_POS','HIGH_INF_POS','MOTIF_SCORE_CHANGE','CADD_PHRED','CADD_RAW']
 
 
     #read vcf from file
@@ -35,7 +29,10 @@ def parse_vep_vcf():
     df_info = df_explode['INFOb_list'].str.split('|').apply(pd.Series)
     df_info.set_axis(VEP_columns, axis=1, inplace=True)
     df_concat = pd.concat([df_explode,df_info],axis=1)
-    df_concat[['Uploaded_variation','CHROM','POS','ID','REF','ALT']+VEP_columns].to_csv(args.o,index=False,sep='\t')
+    df2 = df_concat[['Uploaded_variation','CHROM','POS','ID','REF','ALT']+VEP_columns].replace('', '-')
+    df2['Location'] = df2['CHROM']+':'+df2['POS'].astype(str)
+    df_final = df2[['Uploaded_variation' ,'Location' ,'ALT' ,'Gene' ,'Feature' ,'Feature_type' , 'Consequence' , 'cDNA_position', 'CDS_position', 'Protein_position','Amino_acids' ,'Codons' ,'Existing_variation' , 'IMPACT' , 'SYMBOL', 'STRAND' , 'SIFT' , 'PolyPhen' , 'EXON', 'AFR_AF' , 'AMR_AF' , 'EAS_AF','EUR_AF', 'SAS_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF', 'CADD_RAW', 'CADD_PHRED']]
+    df_final.rename(columns={'ALT': 'Allele'}).to_csv(args.o, sep = "\t", index = False)
 
 
 if __name__ == "__main__":
