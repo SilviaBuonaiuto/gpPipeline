@@ -141,8 +141,8 @@ ggsave(paste(code, '_plicadd.png', sep=''))
 print('aggregate')
 mycol=c( "#FF5959", "#49BEB7")
 
-myd %>% select (IMPACT, SYMBOL, ID) %>%distinct() %>% group_by( IMPACT, SYMBOL)  %>% tally() %>% filter(n>1) %>% ggplot( aes(reorder(SYMBOL, n), n, fill=IMPACT)) + geom_bar(stat='identity', position='dodge') + xlab('genes') + ylab('number of samples') + scale_fill_manual(values=mycol) + coord_flip() + theme_minimal() + facet_wrap (IMPACT ~ ., scales ='free') + ggtitle(paste(code, '- Genes shared among samples', sep=' ')) 
-ggsave(paste(code, '_aggregate.png', sep='')) 
+#myd %>% select (IMPACT, SYMBOL, ID) %>%distinct() %>% group_by( IMPACT, SYMBOL)  %>% tally() %>% filter(n>1) %>% ggplot( aes(reorder(SYMBOL, n), n, fill=IMPACT)) + geom_bar(stat='identity', position='dodge') + xlab('genes') + ylab('number of samples') + scale_fill_manual(values=mycol) + coord_flip() + theme_minimal() + facet_wrap (IMPACT ~ ., scales ='free') + ggtitle(paste(code, '- Genes shared among samples', sep=' ')) 
+#ggsave(paste(code, '_aggregate.png', sep='')) 
 
 
 myd %>% select (index_x, IMPACT, SYMBOL, ID) %>%distinct() %>% group_by( IMPACT, SYMBOL)  %>% tally() %>% filter(n>1) %>% ggplot( aes(reorder(SYMBOL, n), n, fill=IMPACT)) + geom_bar(stat='identity', position='dodge') + xlab('genes') + ylab('number of samples') + scale_fill_manual(values=mycol) + coord_flip() + theme_minimal() + facet_wrap (IMPACT ~ ., scales ='free') + ggtitle(paste(code, '- Genes shared among samples', sep=' ')) 
