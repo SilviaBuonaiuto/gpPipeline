@@ -47,7 +47,7 @@ def main():
 	df_final = df_final.rename(columns={'ALT': 'Allele'})
 	#df = pd.read_table(args.i, sep="\t", index_col= "Uploaded_variation").fillna(0)
 	df_final[['AFR_AF', 'AMR_AF', 'EAS_AF', 'EUR_AF', 'SAS_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF','CADD_RAW', 'CADD_PHRED']] = df_final[['AFR_AF', 'AMR_AF', 'EAS_AF', 'EUR_AF', 'SAS_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF', 'CADD_RAW', 'CADD_PHRED']].replace('-', 0.0)
-	df_final.columns = df.columns.str.strip()
+	df_final.columns = df_final.columns.str.strip()
 	df_final.to_sql("myTable", conn)
 	###### open pLI table and create new table inside grep.db
 	df=pd.read_table(args.pli, sep="\t")
