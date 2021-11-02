@@ -59,7 +59,7 @@ def main():
 	df.to_sql("geneList", conn)
 		
 	###### join myTable and pLItab on common column creating new table
-
+	c.execute("DROP TABLE IF EXISTS firstjoin;")
 	c.execute('CREATE TABLE firstjoin (Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real);')
 
 	c.execute('INSERT INTO firstjoin SELECT myTable.*, pLItable.pLI FROM myTable LEFT JOIN pLItable ON myTable.Feature = pLItable.transcript;')
