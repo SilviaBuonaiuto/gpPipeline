@@ -48,7 +48,7 @@ def main():
 	#df = pd.read_table(args.i, sep="\t", index_col= "Uploaded_variation").fillna(0)
 	df_final[['AFR_AF', 'AMR_AF', 'EAS_AF', 'EUR_AF', 'SAS_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF','CADD_RAW', 'CADD_PHRED']] = df_final[['AFR_AF', 'AMR_AF', 'EAS_AF', 'EUR_AF', 'SAS_AF', 'gnomAD_AF', 'gnomAD_AFR_AF', 'gnomAD_AMR_AF', 'gnomAD_ASJ_AF', 'gnomAD_EAS_AF', 'gnomAD_FIN_AF', 'gnomAD_NFE_AF', 'gnomAD_OTH_AF', 'gnomAD_SAS_AF', 'CADD_RAW', 'CADD_PHRED']].replace('-', 0.0)
 	df_final.columns = df_final.columns.str.strip()
-	df_final.to_sql("myTable", conn)
+	df_final.to_sql("myTable", conn, index = False)
 	###### open pLI table and create new table inside grep.db
 	df=pd.read_table(args.pli, sep="\t")
 	df.columns = df.columns.str.strip()
@@ -60,7 +60,7 @@ def main():
 		
 	###### join myTable and pLItab on common column creating new table
 	c.execute("DROP TABLE IF EXISTS firstjoin;")
-	c.execute('CREATE TABLE firstjoin (index integer,Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real);')
+	c.execute('CREATE TABLE firstjoin (Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real);')
 
 	c.execute('INSERT INTO firstjoin SELECT myTable.*, pLItable.pLI FROM myTable LEFT JOIN pLItable ON myTable.Feature = pLItable.transcript;')
 	conn.commit()
@@ -69,14 +69,14 @@ def main():
 
 	##### join genelist
 
-	c.execute('CREATE TABLE genesjoin (index integer,Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real, EmbryoDev real, DDD real, Lethal real, Essential real, Misc real, DDR real, Candidate real);')
+	c.execute('CREATE TABLE genesjoin (Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real, EmbryoDev real, DDD real, Lethal real, Essential real, Misc real, DDR real, Candidate real);')
 
 	c.execute('INSERT INTO genesjoin SELECT firstjoin.*, geneList.EmbryoDev, geneList.DDD, geneList.Lethal, geneList.Essential, geneList.Misc, geneList.DDR, geneList.Candidate FROM firstjoin LEFT JOIN geneList ON firstjoin.Gene = geneList.ensID;')
 	conn.commit()
 
 	###### add index_x column
 
-	c.execute('CREATE TABLE indexTable (index integer,Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real, EmbryoDev real, DDD real, Lethal real, Essential real, Misc real, DDR real, Candidate real, index_x text);')
+	c.execute('CREATE TABLE indexTable (Uploaded_variation text,Location text,Allele text,Gene text,Feature text,Feature_type text,Consequence text,cDNA_position integer,CDS_position integer,Protein_position integer,Amino_acids text,Codons text,Existing_variation text,IMPACT text,SYMBOL text,STRAND text,SIFT real,PolyPhen real,EXON integer,AFR_AF real,AMR_AF real,EAS_AF real,EUR_AF real,SAS_AF real,gnomAD_AF real,gnomAD_AFR_AF real,gnomAD_AMR_AF real,gnomAD_ASJ_AF real,gnomAD_EAS_AF real,gnomAD_FIN_AF real,gnomAD_NFE_AF real,gnomAD_OTH_AF real,gnomAD_SAS_AF real,CADD_RAW real, CADD_PHRED real, pLIscore real, EmbryoDev real, DDD real, Lethal real, Essential real, Misc real, DDR real, Candidate real, index_x text);')
 
 	c.execute("INSERT INTO indexTable SELECT *, Location ||\':/\'|| Allele FROM genesjoin;")
 
