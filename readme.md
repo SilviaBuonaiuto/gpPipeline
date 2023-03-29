@@ -96,7 +96,31 @@ testdata/con/controls.chr22.vcf -> testdata/con/controls.chr22.vep.tsv
 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/HGDP/data/
 
 ```
-vep --af_1kg --af_gnomad --appris --biotype --buffer_size 5000 --check_existing --distance 5000 --fork 4 --polyphen b --pubmed --regulatory --sift b --species homo_sapiens --symbol --tsl --cache --dir_cache /data/biocontainers/vepcache --offline --tab --fields "Uploaded_variation,Location,Allele,Gene,Feature,Feature_type,Consequence,cDNA_position,CDS_position,Protein_position,Amino_acids,Codons,Existing_variation,IMPACT,SYMBOL,STRAND,SIFT,PolyPhen,EXON,AF,AFR_AF,AMR_AF,ASN_AF,EUR_AF,EAS_AF,SAS_AF,AA_AF,EA_AF,gnomAD_AF,gnomAD_AFR_AF,gnomAD_AMR_AF,gnomAD_ASJ_AF,gnomAD_EAS_AF,gnomAD_FIN_AF,gnomAD_NFE_AF,gnomAD_OTH_AF,gnomAD_SAS_AF,MAX_AF,CADD_RAW,CADD_PHRED" --force_overwrite --variant_class -i allsamples.chrx.vcf --plugin CADD,/CADD/whole_genome_SNVs.tsv.gz -o  allsamples.$chr.vep.tsv && touch tabOk/allsamples.$chr.table_ok
+vep --af_1kg \
+--af_gnomad \
+--appris \
+--biotype \
+--buffer_size 5000 \
+--check_existing \
+--distance 5000 \
+--fork 4 \
+--polyphen b \
+--pubmed \
+--regulatory \
+--sift b \
+--species homo_sapiens \
+--symbol \
+--tsl \
+--cache \
+--dir_cache /data/biocontainers/vepcache \
+--offline \
+--tab \
+--fields "Uploaded_variation,Location,Allele,Gene,Feature,Feature_type,Consequence,cDNA_position,CDS_position,Protein_position,Amino_acids,Codons,Existing_variation,IMPACT,SYMBOL,STRAND,SIFT,PolyPhen,EXON,AF,AFR_AF,AMR_AF,ASN_AF,EUR_AF,EAS_AF,SAS_AF,AA_AF,EA_AF,gnomAD_AF,gnomAD_AFR_AF,gnomAD_AMR_AF,gnomAD_ASJ_AF,gnomAD_EAS_AF,gnomAD_FIN_AF,gnomAD_NFE_AF,gnomAD_OTH_AF,gnomAD_SAS_AF,MAX_AF,CADD_RAW,CADD_PHRED" \
+--force_overwrite \
+--variant_class \
+-i allsamples.chrx.vcf \
+--plugin CADD,/CADD/whole_genome_SNVs.tsv.gz \
+-o  allsamples.$chr.vep.tsv && touch tabOk/allsamples.$chr.table_ok
 ```
 
 #### 4.1  Remove Header of file VEP
@@ -155,7 +179,33 @@ python3 altCounts.py -i /$(chr)/$(id).$(chr)_counts.frq.count -id $(id)
 ```
 *Command line example*
 ```
-python3 scr/GP.py -db chr22.db -isa testdata/sam/samples.chr22.vep.tsv -ic controls.chr22.vep.tsv -gn testdata/db/all_geneList.tsv -p testdata/db/pLIscore.tsv -ff 0.01 -f 0.05 -os samples.chr22.csq.tsv -oc controls.chr22.csq.tsv -type Transcript -r false -pli 0.7 -cadd 0.5 -g 2 -cl testdata/con/controls_id.txt -i 100 -n 10 -pathTodirCtrl /control/alleleCount/chr22 -chrom chr22 -ac 1 -ctgn controlGenes.chr22.tsv -gtd GenesToDiscardHgdp.chr22.tsv -gt 0.5 -sl testdata/sam/samples_id.txt -pathTodir /samples/counts/chr22 -o samples.chr22.filtered.tsv
+python3 scr/GP.py \
+-db chr22.db \
+-isa testdata/sam/samples.chr22.vep.tsv \
+-ic controls.chr22.vep.tsv \
+-gn testdata/db/all_geneList.tsv \
+-p testdata/db/pLIscore.tsv \
+-ff 0.01 \
+-f 0.05 \
+-os samples.chr22.csq.tsv \
+-oc controls.chr22.csq.tsv \
+-type Transcript \
+-r false \
+-pli 0.7 \
+-cadd 0.5 \
+-g 2 \
+-cl testdata/con/controls_id.txt \
+-i 100 \
+-n 10 \
+-pathTodirCtrl /control/alleleCount/chr22 \
+-chrom chr22 \
+-ac 1 \
+-ctgn controlGenes.chr22.tsv \
+-gtd GenesToDiscardHgdp.chr22.tsv \
+-gt 0.5 \
+-sl testdata/sam/samples_id.txt \
+-pathTodir /samples/counts/chr22 \
+-o samples.chr22.filtered.tsv
 ```
 *Concat all chromosomes -> allSamples.filtered.tsv*
 
